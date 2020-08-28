@@ -129,11 +129,7 @@ export default class Candidate extends Component {
     return (
       <>
        <Fade transition={semCandidatos}>
-<<<<<<< HEAD
           <Alert variant="danger">Não existem candidatos para o sorterio </Alert>
-=======
-          <Alert variant="danger">Não existem mais candidatos para o sorterio </Alert>
->>>>>>> 950e170e89a399ed329f80f5f88a861ebee41880
       </Fade>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formBasicEmail">
