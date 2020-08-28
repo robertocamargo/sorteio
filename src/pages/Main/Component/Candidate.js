@@ -11,8 +11,10 @@ export default class Candidate extends Component {
     ganhador: [],
     show: false,
     buttonSorteio: false,
-    semCandidatos:false
+    semCandidatos:false,
+    displayDiv:'none'
   };
+
 
   componentDidMount() {
     const sorteados = localStorage.getItem('sorteados');
@@ -52,7 +54,6 @@ export default class Candidate extends Component {
   };
 
   manipularDadosSorteio = (candidatos) => {
-
     const nomes = this.nomesCandidados(candidatos);
     // Filtra apenas os nomes que não foram sorteados ainda
     const { sorteados } = this.state;
@@ -84,12 +85,12 @@ export default class Candidate extends Component {
     event.preventDefault();
 
     const candidatos = this.state.novosCandidatos;
-    if(!candidatos){
-      this.alertSemCandidatos();
-      return;
-    }
 
-    this.manipularDadosSorteio(candidatos);
+    if(candidatos.length === 0){
+      this.alertSemCandidatos();
+     return
+    }
+      this.manipularDadosSorteio(candidatos);
   };
 
   handleClear = () => {
@@ -111,12 +112,14 @@ export default class Candidate extends Component {
 
   alertSemCandidatos = () => {
     this.setState({
-      semCandidatos: true
+      semCandidatos: true,
+      displayDiv:true
     });
 
     setTimeout(() => {
       this.setState({
-        semCandidatos: false
+        semCandidatos: false,
+        displayDiv: 'none'
       });
     }, 2000);
 
@@ -125,12 +128,15 @@ export default class Candidate extends Component {
   render() {
     const ShowClose = () => this.setState({ show: false });
 
-    const { sorteados, novosCandidatos, total, ganhador, show, buttonSorteio,semCandidatos } = this.state;
+    const { sorteados, novosCandidatos, total, ganhador, show, buttonSorteio,semCandidatos, displayDiv } = this.state;
     return (
       <>
-       <Fade transition={semCandidatos}>
-          <Alert variant="danger">Não existem candidatos para o sorterio </Alert>
+      <div style={{display:displayDiv}}>
+       <Fade  transition={semCandidatos}>
+          <Alert  variant="danger">Não existem candidatos para o sorterio </Alert>
       </Fade>
+      </div>
+      informe a lista de nomes que serão sorteados, um por linha
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Control
